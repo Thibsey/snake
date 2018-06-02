@@ -1,0 +1,18 @@
+body {
+    text-align: center;
+    background-color: black;
+}
+
+.snake-container{
+    background-color: rgb(116, 107, 116);
+    width: 1220;
+    height: 820px;
+}
+
+.snake-box {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 1201;
+    height: 801px;
+
+}
