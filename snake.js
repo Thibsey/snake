@@ -1,12 +1,12 @@
 window.onload = () => {
-    canv = document.getElementById("gc");
+    canv = document.getElementById("snakegrid");
     ctx = canv.getContext("2d");
-    snakeDeath();
+    spawnSnake();
+    spawnApple();
     document.addEventListener("keydown", keyPush);
     setInterval(game, 1500 / 15);
 
 }
-
 
 
 // change tileCount when changing canvas width and height
@@ -35,7 +35,7 @@ game = () => {
     ctx.fillStyle = "lime";
     for (var i = 0; i < trail.length; i++) {
         ctx.fillRect(trail[i].x * gridSize, trail[i].y * gridSize, gridSize - 2, gridSize - 2);
-        if (trail[i].x == horizontalPosition && trail[i].y == verticalPosition) {
+        if ((trail[i].x == horizontalPosition && trail[i].y == verticalPosition) && (horizontalVelocity != 0 && verticalVelocity != 0)) {
             snakeDeath();
         }
     }
@@ -51,7 +51,7 @@ game = () => {
 
     if (horizontalApple == horizontalPosition && verticalApple == verticalPosition) {
         tail++;
-        spawnApple()
+        spawnApple();
     }
 
     ctx.fillStyle = "red";
@@ -69,6 +69,16 @@ snakeDeath = () => {
     trail = new Array;
     tail = 5;
     spawnApple();
+
+};
+
+spawnSnake = () => {
+
+    horizontalPosition = widthTileCount / 2;
+    verticalPosition = heightTileCount / 2;
+    horizontalVelocity = verticalVelocity = 0;
+    trail = new Array;
+    tail = 5;
 
 };
 
