@@ -2,7 +2,6 @@ window.onload = () => {
     canv = document.getElementById("snakegrid");
     ctx = canv.getContext("2d");
     spawnSnake();
-    spawnApple();
     document.addEventListener("keydown", keyPush);
     setInterval(game, 1500 / 15);
 
@@ -12,17 +11,21 @@ window.onload = () => {
 // change tileCount when changing canvas width and height
 // devide gridSize by canvas width to know widthTileCount
 // devide gridSize by canvas height to know heightTileCount
-gridSize = 20;
-widthTileCount = 60;
-heightTileCount = 40;
+const gridSize = 20;
+const widthTileCount = 60;
+const heightTileCount = 40;
+var horizontalApple = -1;
+var verticalApple = -1;
 
 
 
 game = () => {
 
+    // Front position adjustment base on direction.
     horizontalPosition += horizontalVelocity;
     verticalPosition += verticalVelocity;
 
+    // Wall death
     if (horizontalPosition < 0 || verticalPosition < 0 || horizontalPosition > widthTileCount - 1 || verticalPosition > heightTileCount - 1) {
 
         // Reset to start position after colition
@@ -35,8 +38,16 @@ game = () => {
     ctx.fillStyle = "lime";
     for (var i = 0; i < trail.length; i++) {
         ctx.fillRect(trail[i].x * gridSize, trail[i].y * gridSize, gridSize - 2, gridSize - 2);
-        if ((trail[i].x == horizontalPosition && trail[i].y == verticalPosition) && (horizontalVelocity != 0 && verticalVelocity != 0)) {
-            snakeDeath();
+        if (trail[i].x == horizontalPosition && trail[i].y == verticalPosition) {
+            if (horizontalVelocity == 0 && verticalVelocity == 0) {
+                if (horizontalApple == -1 && verticalApple == -1) {
+                    spawnApple();
+                } else {
+                    return null;
+                }
+            } else {
+                snakeDeath();
+            }
         }
     }
 
@@ -68,6 +79,8 @@ snakeDeath = () => {
     horizontalVelocity = verticalVelocity = 0;
     trail = new Array;
     tail = 5;
+    var horizontalApple = -1;
+    var verticalApple = -1;
     spawnApple();
 
 };
